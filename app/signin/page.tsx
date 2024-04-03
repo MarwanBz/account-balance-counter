@@ -4,8 +4,6 @@ function Page() {
   return (
     <div className='content-center'>
     
-    
-    
     </div>
   )
 }
