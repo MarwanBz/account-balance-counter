@@ -29,7 +29,7 @@ export const siteConfig = {
 		
 		{
 			label: "تسجيل الدخول",
-			href: "/signin",
+			href: "/login",
 		},
 	],
 	links: {
