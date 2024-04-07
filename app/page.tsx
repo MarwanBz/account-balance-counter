@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import { Link } from "@nextui-org/link";
 import { Snippet } from "@nextui-org/snippet";
 import { Code } from "@nextui-org/code";
@@ -10,30 +10,66 @@ import { Counter } from "@/components/counter";
 import { redirect } from "next/navigation";
 import { getCookie } from "cookies-next";
 import React, { useEffect } from "react";
+import {
+  CircularProgress,
+  Card,
+  CardBody,
+  CardFooter,
+  Chip,
+} from "@nextui-org/react";
 
 export default function Home() {
-   let [username,setUsername] = React.useState('')
-  useEffect(()=>{
-    let storedUsername= getCookie("username");
+  const [bandWidth, setBandWidth] = React.useState(10000);
+  const [decreaseRate, setDecreaseRate] = React.useState();
+  const [username, setUsername] = React.useState("");
+  const usedPercentage = Math.min(bandWidth / 10000, 1) * 100;
+  useEffect(() => {
+    let storedUsername = getCookie("username");
     setUsername(storedUsername);
-  },[])
+
+    const updateBandwidth = setInterval(() => {
+      setBandWidth((prevBandwidth) => Math.max(prevBandwidth - Math.round(500)* Math.random(), 0));
+    },1000);
+
+    return () => clearInterval(updateBandwidth);
+  }, []);
   return (
     <section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
-      <div className="inline-block max-w-lg text-center justify-center">
-        <h1 className={title()}>  عزيزي العميل </h1>
-        <div >
-          <h1 className={title({ color: "violet" })}>{username}&nbsp;</h1>
+      <div className="max-w-lg text-center flex flex-col justify-center items-center">
+        <h1 className={title()}> Dear Customer </h1>
+        <div className="py-3">
+          <h3 className={title({ color: "violet" })}>{username}&nbsp;</h3>
         </div>
         <br />
-        <h1 className={title()}>
-          رصيدك المتبقي 
-					<span >3040ميقا بايت</span>
-        </h1>
-        <Counter />
-      </div>
 
+        <Card className="w-[240px] h-[240px] border-none bg-gradient-to-br from-violet-500 to-fuchsia-500">
+          <h3>your balance </h3>
+          <CardBody className="justify-center items-center pb-0">
+            <CircularProgress
+              classNames={{
+                svg: "w-36 h-36 drop-shadow-md",
+                indicator: "stroke-white",
+                track: "stroke-white/10",
+                value: "text-3xl font-semibold text-white",
+              }}
+              value={usedPercentage}
+              strokeWidth={4}
+              showValueLabel={true}
+            />
+          </CardBody>
+          <CardFooter className="justify-center items-center pt-0">
+            <Chip
+              classNames={{
+                base: "border-1 border-white/30",
+                content: "text-white/90 text-small font-semibold",
+              }}
+              variant="bordered"
+            >
+              {`${bandWidth} MB`}
+            </Chip>
+          </CardFooter>
+        </Card>
+      </div>
     </section>
-    
   );
-  
 }
