@@ -29,7 +29,7 @@ export default function Home() {
 
     const updateBandwidth = setInterval(() => {
       setBandWidth((prevBandwidth) => Math.max(prevBandwidth - Math.round(500)* Math.random(), 0));
-    },1000);
+    },12 *60 *60 *1000);
 
     return () => clearInterval(updateBandwidth);
   }, []);
