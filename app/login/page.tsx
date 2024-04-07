@@ -1,9 +1,12 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { Divider, Input, Button } from "@nextui-org/react";
 import { title, subtitle } from "@/components/primitives";
 import { EyeFilledIcon, EyeSlashFilledIcon } from "@/components/icons";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
+import { setCookie } from "cookies-next";
+import { hasCookie } from "cookies-next";
+
 function Page() {
   const [isVisible, setIsVisible] = React.useState(false);
   const toggleVisibility = () => setIsVisible(!isVisible);
@@ -13,11 +16,16 @@ function Page() {
 
   function handelSubmit(event:any){
     event.preventDefault();
-    localStorage.setItem('username',username)
-    console.log(username);
-    router.push('/')
-    
+    const loggedIn = setCookie('username',username)
+    const isLoggedIn = hasCookie('username')
+    if (isLoggedIn) {
+      // setCookie("username", username); // Store actual username
+      router.push('/')
+    } else {
+      // Handle login failure (optional)
+    }
   }
+  
 
   return (
     <div className="flex items-center justify-center text-center">
