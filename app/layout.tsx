@@ -45,6 +45,7 @@ export default function RootLayout({
 							{children}
 						</main>
 						<footer className="w-full flex items-center justify-center py-3">
+							All Rights Reserved 📡
 							<Link
 								isExternal
 								className="flex items-center gap-1 text-current"

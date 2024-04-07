@@ -28,7 +28,7 @@ export const siteConfig = {
 	navMenuItems: [
 		
 		{
-			label: "تسجيل الدخول",
+			label: "Logout",
 			href: "/login",
 		},
 	],
