@@ -43,8 +43,8 @@ export const Navbar = () => {
       <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
         <NavbarBrand as="li" className="gap-3 max-w-fit">
           <NextLink className="flex justify-start items-center gap-1" href="/">
-            <span className="text-[30px]">📡</span>
-            <p className="font-bold text-inherit">InterSatNet</p>
+            <span className="text-[40px]">📡</span>
+            <p className="font-bold text-inherit text-2xl">InterSatNet</p>
           </NextLink>
         </NavbarBrand>
       </NavbarContent>
