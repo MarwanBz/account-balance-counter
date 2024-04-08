@@ -19,18 +19,26 @@ import {
 } from "@nextui-org/react";
 
 export default function Home() {
-  const [bandWidth, setBandWidth] = React.useState(10000);
+  const [bandWidth, setBandWidth] = React.useState(() => {
+    const savedBandWidth = localStorage.getItem('LstBandWidth');
+    return savedBandWidth ? parseInt(savedBandWidth, 10) : 10000;
+  })
   const [decreaseRate, setDecreaseRate] = React.useState();
   const [username, setUsername] = React.useState("");
   const usedPercentage = Math.min(bandWidth / 10000, 1) * 100;
+  const localStoredBandwidth = localStorage.setItem("LstBandWidth", bandWidth);
+  
   useEffect(() => {
     let storedUsername = getCookie("username");
+    let getlocalStoredBandwidth = localStorage.getItem('LstBandWidth')
     setUsername(storedUsername);
-
     const updateBandwidth = setInterval(() => {
-      setBandWidth((prevBandwidth) => Math.max(prevBandwidth - Math.round(500)* Math.random(), 0));
-    },12 *60 *60 *1000);
-
+      setBandWidth((prevBandwidth) => {
+            const updatedBandwidth = Math.max(prevBandwidth - Math.round(500) * Math.random(), 0);
+            return Math.round(updatedBandwidth * 10) / 10; // Round to one decimal place
+        });
+    },10000);
+    setBandWidth(getlocalStoredBandwidth)
     return () => clearInterval(updateBandwidth);
   }, []);
   return (
