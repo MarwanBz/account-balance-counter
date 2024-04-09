@@ -26,7 +26,10 @@ export default function Home() {
   const [decreaseRate, setDecreaseRate] = React.useState();
   const [username, setUsername] = React.useState("");
   const usedPercentage = Math.min(bandWidth / 20000, 1) * 100;
-  const localStoredBandwidth = localStorage.setItem("LstBandWidth", bandWidth);
+  const localStoredBandwidth = localStorage.setItem(
+    "LstBandWidth",
+    JSON.stringify(bandWidth)
+  );
 
   useEffect(() => {
     let storedUsername = getCookie("username");
