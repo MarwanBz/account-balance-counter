@@ -21,11 +21,11 @@ import {
 export default function Home() {
   const [bandWidth, setBandWidth] = React.useState(() => {
     const savedBandWidth = localStorage.getItem("LstBandWidth");
-    return savedBandWidth ? parseInt(savedBandWidth, 10) : 10000;
+    return savedBandWidth ? parseInt(savedBandWidth, 10) : 20000;
   });
   const [decreaseRate, setDecreaseRate] = React.useState();
   const [username, setUsername] = React.useState("");
-  const usedPercentage = Math.min(bandWidth / 10000, 1) * 100;
+  const usedPercentage = Math.min(bandWidth / 20000, 1) * 100;
   const localStoredBandwidth = localStorage.setItem("LstBandWidth", bandWidth);
 
   useEffect(() => {
@@ -35,12 +35,12 @@ export default function Home() {
     const updateBandwidth = setInterval(() => {
       setBandWidth((prevBandwidth) => {
         const updatedBandwidth = Math.max(
-          prevBandwidth - Math.round(500) * Math.random(),
+          prevBandwidth - Math.round(0.165) * Math.random(),
           0
         );
         return Math.round(updatedBandwidth * 10) / 10; // Round to one decimal place
       });
-    }, 12 * 60 * 60 * 1000);
+    }, 1000);
     setBandWidth(getlocalStoredBandwidth);
     return () => clearInterval(updateBandwidth);
   }, []);
