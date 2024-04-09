@@ -32,7 +32,7 @@ export default function Home() {
   );
 
   useEffect(() => {
-    let storedUsername = getCookie("username");
+    const storedUsername = getCookie("username") || "";
     let getlocalStoredBandwidth = localStorage.getItem("LstBandWidth");
     setUsername(storedUsername);
     const updateBandwidth = setInterval(() => {
