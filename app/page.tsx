@@ -1,52 +1,88 @@
 "use client";
-import { Link } from "@nextui-org/link";
-import { Snippet } from "@nextui-org/snippet";
-import { Code } from "@nextui-org/code";
-import { button as buttonStyles } from "@nextui-org/theme";
-import { siteConfig } from "@/config/site";
-import { title, subtitle } from "@/components/primitives";
-import { GithubIcon } from "@/components/icons";
-import { Counter } from "@/components/counter";
-import { redirect } from "next/navigation";
-import { getCookie } from "cookies-next";
-import React, { useEffect } from "react";
+
 import {
-  CircularProgress,
   Card,
   CardBody,
   CardFooter,
   Chip,
+  CircularProgress,
 } from "@nextui-org/react";
+import React, { useEffect, useState } from "react";
+import { subtitle, title } from "@/components/primitives";
 
+import { Code } from "@nextui-org/code";
+import { Counter } from "@/components/counter";
+import { GithubIcon } from "@/components/icons";
+import { Link } from "@nextui-org/link";
+import { Snippet } from "@nextui-org/snippet";
+import { button as buttonStyles } from "@nextui-org/theme";
+import { getCookie } from "cookies-next";
+import { redirect } from "next/navigation";
+import { siteConfig } from "@/config/site";
+
+const MAX_BANDWIDTH = 20000;
+const DECREASE_RATE = 0.165;
 export default function Home() {
-  const [bandWidth, setBandWidth] = React.useState(() => {
-    const savedBandWidth = localStorage.getItem("LstBandWidth");
-    return savedBandWidth ? parseInt(savedBandWidth, 10) : 20000;
-  });
-  const [decreaseRate, setDecreaseRate] = React.useState();
-  const [username, setUsername] = React.useState("");
-  const usedPercentage = Math.min(bandWidth / 20000, 1) * 100;
-  const localStoredBandwidth = localStorage.setItem(
-    "LstBandWidth",
-    JSON.stringify(bandWidth)
-  );
+  const [bandWidth, setBandWidth] = useState(MAX_BANDWIDTH);
+
+  const [username, setUsername] = useState("");
+
+  // Move username logic to a separate client-side function or hook
+  const fetchUsername = () => {
+    if (typeof window !== "undefined") {
+      // Ensure browser environment
+      try {
+        const storedUsername = getCookie("username") || "";
+        setUsername(storedUsername);
+      } catch (error) {
+        // Handle cookie access error (optional)
+      }
+    }
+  };
 
   useEffect(() => {
-    const storedUsername = getCookie("username") || "";
-    let getlocalStoredBandwidth = localStorage.getItem("LstBandWidth");
-    setUsername(storedUsername);
+    // Update bandwidth on mount (empty dependency array)
+    setBandWidth((prevBandwidth) => {
+      const updatedBandwidth = Math.max(
+        prevBandwidth - Math.round(DECREASE_RATE * Math.random()),
+        0
+      );
+      return Math.round(updatedBandwidth * 10) / 10; // Round to one decimal place
+    });
     const updateBandwidth = setInterval(() => {
-      setBandWidth((prevBandwidth) => {
-        const updatedBandwidth = Math.max(
-          prevBandwidth - Math.round(0.165) * Math.random(),
-          0
-        );
+      setBandWidth(prevBandwidth => {
+        const updatedBandwidth = Math.max(prevBandwidth - Math.round(DECREASE_RATE * Math.random()), 0);
         return Math.round(updatedBandwidth * 10) / 10; // Round to one decimal place
       });
     }, 1000);
-    setBandWidth(getlocalStoredBandwidth);
+
     return () => clearInterval(updateBandwidth);
   }, []);
+
+  useEffect(() => {
+    // Fetch username on component mount (optional)
+    fetchUsername();
+  }, []); // Empty dependency array ensures it runs only once
+
+  // useEffect(() => {
+  //   const storedUsername = getCookie("username") || "";
+  //   setUsername(storedUsername);
+
+  //   const updateBandwidth = setInterval(() => {
+  //     setBandWidth(prevBandwidth => {
+  //       const updatedBandwidth = Math.max(prevBandwidth - Math.round(DECREASE_RATE * Math.random()), 0);
+  //       return Math.round(updatedBandwidth * 10) / 10; // Round to one decimal place
+  //     });
+  //   }, 1000);
+
+  //   return () => clearInterval(updateBandwidth);
+  // }, []);
+
+  useEffect(() => {
+    localStorage.setItem("LstBandWidth", JSON.stringify(bandWidth));
+  }, [bandWidth]);
+
+  const usedPercentage = Math.min(bandWidth / MAX_BANDWIDTH, 1) * 100;
   return (
     <section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
       <div className="max-w-lg text-center flex flex-col justify-center items-center">
