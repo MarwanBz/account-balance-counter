@@ -1,11 +1,13 @@
 "use client";
-import React, { useEffect } from "react";
-import { Divider, Input, Button } from "@nextui-org/react";
-import { title, subtitle } from "@/components/primitives";
+
+import { Button, Divider, Input } from "@nextui-org/react";
 import { EyeFilledIcon, EyeSlashFilledIcon } from "@/components/icons";
+import React, { useEffect } from "react";
 import { redirect, useRouter } from "next/navigation";
-import { setCookie } from "cookies-next";
+import { subtitle, title } from "@/components/primitives";
+
 import { hasCookie } from "cookies-next";
+import { setCookie } from "cookies-next";
 
 function Page() {
   const [isVisible, setIsVisible] = React.useState(false);
@@ -31,15 +33,15 @@ function Page() {
     <div className="flex items-center justify-center text-center">
       <div className="max-w-md">
         <div className="space-y-1">
-          <h1 className={title()}>أهلا بك عزيزي العميل </h1>
+          <h1 className={title()}>Welcome Dear Customers</h1>
           <br />
           <br />
           <h2 className="text-large font-medium text-center">
-            قم بتسجيل الدخول{" "}
+            Please Login{" "}
           </h2>
           <Divider />
           <p className="text-small text-default-400 text-center">
-            ❗ لمعرفة رصيدك المتبقي سجل دخولك الان
+            ❗ Login know to get your account details
           </p>
         </div>
 
@@ -49,7 +51,7 @@ function Page() {
               variant="bordered"
               type="email"
               labelPlacement="inside"
-              label=" اسم المستخدم "
+              label="Username"
               value={username}
               onChange={(e) => {
                 setUsername(e.target.value);
@@ -57,7 +59,7 @@ function Page() {
             />
             <div className="my-4">
               <Input
-                label="كلمة السر"
+                label="Password"
                 variant="bordered"
                 placeholder=""
                 value={password}
@@ -82,7 +84,7 @@ function Page() {
               />
             </div>
             <Button onClick={handelSubmit} color="primary">
-              تسجيل الدخول{" "}
+             Login{" "}
             </Button>
           </form>
         </div>
