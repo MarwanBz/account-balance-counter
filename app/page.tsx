@@ -20,7 +20,7 @@ import { getCookie } from "cookies-next";
 import { redirect } from "next/navigation";
 import { siteConfig } from "@/config/site";
 
-const MAX_BANDWIDTH = 20000;
+const MAX_BANDWIDTH = 100;
 const DECREASE_RATE = 0.165;
 export default function Home() {
   const [bandWidth, setBandWidth] = useState(MAX_BANDWIDTH);
@@ -102,7 +102,7 @@ export default function Home() {
               }}
               variant="bordered"
             >
-              {`${bandWidth} MB`}
+              {`${bandWidth} GB`}
             </Chip>
           </CardFooter>
         </Card>
