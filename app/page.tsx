@@ -64,19 +64,6 @@ export default function Home() {
     fetchUsername();
   }, []); // Empty dependency array ensures it runs only once
 
-  // useEffect(() => {
-  //   const storedUsername = getCookie("username") || "";
-  //   setUsername(storedUsername);
-
-  //   const updateBandwidth = setInterval(() => {
-  //     setBandWidth(prevBandwidth => {
-  //       const updatedBandwidth = Math.max(prevBandwidth - Math.round(DECREASE_RATE * Math.random()), 0);
-  //       return Math.round(updatedBandwidth * 10) / 10; // Round to one decimal place
-  //     });
-  //   }, 1000);
-
-  //   return () => clearInterval(updateBandwidth);
-  // }, []);
 
   useEffect(() => {
     localStorage.setItem("LstBandWidth", JSON.stringify(bandWidth));
@@ -91,9 +78,9 @@ export default function Home() {
           <h3 className={title({ color: "violet" })}>{username}&nbsp;</h3>
         </div>
         <br />
-
+        <h3 className={title({ size: "sm" })}>your balance  &#8628; </h3>
+        <br />
         <Card className="w-[240px] h-[240px] border-none bg-gradient-to-br from-violet-500 to-fuchsia-500">
-          <h3>your balance </h3>
           <CardBody className="justify-center items-center pb-0">
             <CircularProgress
               classNames={{

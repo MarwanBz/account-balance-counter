@@ -46,8 +46,9 @@ function Page() {
         </div>
 
         <div className="p-10">
-          <form onSubmit={handelSubmit}>
+          <form onSubmit={handelSubmit} className="flex justify-center flex-col items-stretch">
             <Input
+              isRequired={true}
               variant="bordered"
               type="email"
               labelPlacement="inside"
@@ -57,8 +58,9 @@ function Page() {
                 setUsername(e.target.value);
               }}
             />
-            <div className="my-4">
+            <div className="my-4 mx-auto" >
               <Input
+                
                 label="Password"
                 variant="bordered"
                 placeholder=""
@@ -83,8 +85,8 @@ function Page() {
                 className="max-w-xs"
               />
             </div>
-            <Button onClick={handelSubmit} color="primary">
-             Login{" "}
+            <Button type="submit" onClick={handelSubmit} color="primary">
+              Login{" "}
             </Button>
           </form>
         </div>
